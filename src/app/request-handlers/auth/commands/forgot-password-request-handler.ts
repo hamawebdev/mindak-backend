@@ -19,14 +19,14 @@ const payloadSchema = z.object({
 
 /**
  * Forgot Password Request Handler
- * 
+ *
  * Generates a password reset token and sends it to the user's email.
- * 
+ *
  * Note: In production, this should:
  * 1. Send an email with the reset link (not return the token in response)
  * 2. Use a proper email service (SendGrid, AWS SES, etc.)
  * 3. Include rate limiting to prevent abuse
- * 
+ *
  * For now, we return success without exposing the token for security.
  */
 @injectable()

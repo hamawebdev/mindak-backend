@@ -14,6 +14,16 @@ import * as serviceReservationSchema from './schemas/service-reservation';
 import * as reservationStatusHistorySchema from './schemas/reservation-status-history';
 import * as reservationNoteSchema from './schemas/reservation-note';
 import * as analyticsEventSchema from './schemas/analytics-event';
+import * as podcastDecorSchema from './schemas/podcast-decor';
+import * as podcastPackOfferSchema from './schemas/podcast-pack-offer';
+import * as podcastSupplementServiceSchema from './schemas/podcast-supplement-service';
+import * as podcastFormQuestionSchema from './schemas/podcast-form-question';
+import * as podcastFormStepSchema from './schemas/podcast-form-step';
+import * as podcastFormQuestionOptionSchema from './schemas/podcast-form-question-option';
+import * as podcastReservationNewSchema from './schemas/podcast-reservation-new';
+import * as podcastReservationSupplementSchema from './schemas/podcast-reservation-supplement';
+import * as podcastReservationAnswerSchema from './schemas/podcast-reservation-answer';
+import * as podcastThemeSchema from './schemas/podcast-theme';
 
 export type DatabaseConfig = {
   host: string;
@@ -40,6 +50,16 @@ const buildDrizzle = (pool: Pool) => drizzle({
     ...reservationStatusHistorySchema,
     ...reservationNoteSchema,
     ...analyticsEventSchema,
+    ...podcastDecorSchema,
+    ...podcastPackOfferSchema,
+    ...podcastSupplementServiceSchema,
+    ...podcastFormQuestionSchema,
+    ...podcastFormStepSchema,
+    ...podcastFormQuestionOptionSchema,
+    ...podcastReservationNewSchema,
+    ...podcastReservationSupplementSchema,
+    ...podcastReservationAnswerSchema,
+    ...podcastThemeSchema,
   },
   client: pool,
 });

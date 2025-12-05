@@ -18,7 +18,7 @@ class AdminFormsRouter extends BaseRouter {
     @inject(REQUEST_HANDLERS_DI_TYPES.UpdatePodcastQuestionRequestHandler) private readonly updatePodcastQuestionRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.DeletePodcastQuestionRequestHandler) private readonly deletePodcastQuestionRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.ReorderPodcastQuestionsRequestHandler) private readonly reorderPodcastQuestionsRequestHandler: IRequestHandler,
-    
+
     // Podcast Question Answers
     @inject(REQUEST_HANDLERS_DI_TYPES.GetQuestionAnswersRequestHandler) private readonly getQuestionAnswersRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.CreateQuestionAnswerRequestHandler) private readonly createQuestionAnswerRequestHandler: IRequestHandler,
@@ -26,14 +26,14 @@ class AdminFormsRouter extends BaseRouter {
     @inject(REQUEST_HANDLERS_DI_TYPES.DeleteQuestionAnswerRequestHandler) private readonly deleteQuestionAnswerRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.ReorderQuestionAnswersRequestHandler) private readonly reorderQuestionAnswersRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.UploadAnswerImageRequestHandler) private readonly uploadAnswerImageRequestHandler: IRequestHandler,
-    
+
     // Services Questions
     @inject(REQUEST_HANDLERS_DI_TYPES.GetServicesQuestionsRequestHandler) private readonly getServicesQuestionsRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.CreateServicesQuestionRequestHandler) private readonly createServicesQuestionRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.UpdateServicesQuestionRequestHandler) private readonly updateServicesQuestionRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.DeleteServicesQuestionRequestHandler) private readonly deleteServicesQuestionRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.ReorderServicesQuestionsRequestHandler) private readonly reorderServicesQuestionsRequestHandler: IRequestHandler,
-    
+
     // Services Question Answers
     @inject(REQUEST_HANDLERS_DI_TYPES.GetServicesQuestionAnswersRequestHandler) private readonly getServicesQuestionAnswersRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.CreateServicesQuestionAnswerRequestHandler) private readonly createServicesQuestionAnswerRequestHandler: IRequestHandler,
@@ -41,7 +41,7 @@ class AdminFormsRouter extends BaseRouter {
     @inject(REQUEST_HANDLERS_DI_TYPES.DeleteServicesQuestionAnswerRequestHandler) private readonly deleteServicesQuestionAnswerRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.ReorderServicesQuestionAnswersRequestHandler) private readonly reorderServicesQuestionAnswersRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.UploadServicesAnswerImageRequestHandler) private readonly uploadServicesAnswerImageRequestHandler: IRequestHandler,
-    
+
     // Middlewares
     @inject(MIDDLEWARES_DI_TYPES.CurrentUserMiddleware) private readonly currentUserMiddleware: ICurrentUserMiddleware,
     @inject(MIDDLEWARES_DI_TYPES.AuthenticatedMiddleware) private readonly authenticatedMiddleware: IAuthenticatedMiddleware,

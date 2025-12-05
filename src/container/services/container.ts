@@ -9,6 +9,13 @@ import { JwtAuthenticator } from '@/infra/auth/authenticator/jwt-authenticator';
 import type { IDatabase, DatabaseConfig } from '@/infra/database/database';
 import { Database } from '@/infra/database/database';
 import { BcryptEncryptor } from '@/infra/security/encryptor/bcrypt-encryptor';
+import type { PodcastAvailabilityService } from '@/domain/services/podcast/podcast-availability.service.interface';
+import { PodcastAvailabilityServiceSymbol } from '@/domain/services/podcast/podcast-availability.service.interface';
+import { PodcastAvailabilityService as PodcastAvailabilityServiceImpl } from '@/domain/services/podcast/podcast-availability.service';
+import type { PodcastReservationService } from '@/domain/services/podcast/podcast-reservation.service.interface';
+import { PodcastReservationService as PodcastReservationServiceSymbol } from '@/domain/services/podcast/podcast-reservation.service.interface';
+import { PodcastReservationService as PodcastReservationServiceImpl } from '@/domain/services/podcast/podcast-reservation.service';
+import { PodcastValidationService, PodcastValidationServiceSymbol } from '@/domain/services/podcast/podcast-validation.service';
 
 export const registerServices = (containerBuilder: ContainerBuilder) => {
   const builder = new ServicesContainerBuilder(containerBuilder).registerServices();
@@ -25,7 +32,8 @@ class ServicesContainerBuilder {
     this
       .registerAuthServices()
       .registerSecurityServices()
-      .registerDatabaseService();
+      .registerDatabaseService()
+      .registerPodcastServices();
 
     return this.containerBuilder;
   }
@@ -82,5 +90,15 @@ class ServicesContainerBuilder {
       database,
       ssl,
     };
+  }
+
+  private registerPodcastServices() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<PodcastAvailabilityService>(PodcastAvailabilityServiceSymbol).to(PodcastAvailabilityServiceImpl).inSingletonScope();
+      container.bind<PodcastReservationService>(PodcastReservationServiceSymbol).to(PodcastReservationServiceImpl).inSingletonScope();
+      container.bind<PodcastValidationService>(PodcastValidationServiceSymbol).to(PodcastValidationService).inSingletonScope();
+    });
+
+    return this;
   }
 }

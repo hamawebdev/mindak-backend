@@ -29,6 +29,20 @@
       "when": 1762632586007,
       "tag": "0003_long_kingpin",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1763729832355,
+      "tag": "0004_complex_lilith",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1763756745644,
+      "tag": "0005_ambitious_daredevil",
+      "breakpoints": true
     }
   ]
 }

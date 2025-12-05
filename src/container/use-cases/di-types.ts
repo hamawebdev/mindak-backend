@@ -50,10 +50,14 @@ export const USE_CASES_DI_TYPES = {
   GetReservationConfirmationUseCase: Symbol.for('GetReservationConfirmationUseCase'),
 
   // Admin - Podcast Reservations
+  CreatePodcastReservationAdminUseCase: Symbol.for('CreatePodcastReservationAdminUseCase'),
   ListPodcastReservationsUseCase: Symbol.for('ListPodcastReservationsUseCase'),
   GetPodcastReservationDetailsUseCase: Symbol.for('GetPodcastReservationDetailsUseCase'),
   GetPodcastClientDataUseCase: Symbol.for('GetPodcastClientDataUseCase'),
+  GetConfirmedCalendarUseCase: Symbol.for('GetConfirmedCalendarUseCase'),
+  GetPendingCalendarUseCase: Symbol.for('GetPendingCalendarUseCase'),
   UpdatePodcastReservationStatusUseCase: Symbol.for('UpdatePodcastReservationStatusUseCase'),
+  UpdatePodcastReservationScheduleUseCase: Symbol.for('UpdatePodcastReservationScheduleUseCase'),
   AddPodcastReservationNoteUseCase: Symbol.for('AddPodcastReservationNoteUseCase'),
   DeletePodcastReservationUseCase: Symbol.for('DeletePodcastReservationUseCase'),
 
@@ -72,4 +76,37 @@ export const USE_CASES_DI_TYPES = {
   GetTrendAnalysisUseCase: Symbol.for('GetTrendAnalysisUseCase'),
   GetTopServicesUseCase: Symbol.for('GetTopServicesUseCase'),
   GetRealtimeDashboardUseCase: Symbol.for('GetRealtimeDashboardUseCase'),
+
+  // Podcast Configuration
+  // Decors
+  CreatePodcastDecorUseCase: Symbol.for('CreatePodcastDecorUseCase'),
+  UpdatePodcastDecorUseCase: Symbol.for('UpdatePodcastDecorUseCase'),
+  DeletePodcastDecorUseCase: Symbol.for('DeletePodcastDecorUseCase'),
+
+  // Packs
+  CreatePodcastPackOfferUseCase: Symbol.for('CreatePodcastPackOfferUseCase'),
+  UpdatePodcastPackOfferUseCase: Symbol.for('UpdatePodcastPackOfferUseCase'),
+  DeletePodcastPackOfferUseCase: Symbol.for('DeletePodcastPackOfferUseCase'),
+
+  // Supplements
+  CreatePodcastSupplementUseCase: Symbol.for('CreatePodcastSupplementUseCase'),
+  UpdatePodcastSupplementUseCase: Symbol.for('UpdatePodcastSupplementUseCase'),
+  DeletePodcastSupplementUseCase: Symbol.for('DeletePodcastSupplementUseCase'),
+
+  // Steps
+  CreatePodcastFormStepUseCase: Symbol.for('CreatePodcastFormStepUseCase'),
+  UpdatePodcastFormStepUseCase: Symbol.for('UpdatePodcastFormStepUseCase'),
+  DeletePodcastFormStepUseCase: Symbol.for('DeletePodcastFormStepUseCase'),
+  GetPodcastFormStructureUseCase: Symbol.for('GetPodcastFormStructureUseCase'),
+
+  // Form Questions (New)
+  CreatePodcastFormQuestionUseCase: Symbol.for('CreatePodcastFormQuestionUseCase'),
+  UpdatePodcastFormQuestionUseCase: Symbol.for('UpdatePodcastFormQuestionUseCase'),
+  DeletePodcastFormQuestionUseCase: Symbol.for('DeletePodcastFormQuestionUseCase'),
+
+  // Themes
+  CreatePodcastThemeUseCase: Symbol.for('CreatePodcastThemeUseCase'),
+  UpdatePodcastThemeUseCase: Symbol.for('UpdatePodcastThemeUseCase'),
+  DeletePodcastThemeUseCase: Symbol.for('DeletePodcastThemeUseCase'),
+  GetPodcastThemesUseCase: Symbol.for('GetPodcastThemesUseCase'),
 };

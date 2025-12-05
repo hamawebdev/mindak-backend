@@ -124,7 +124,7 @@ export class SubmitServiceReservationUseCase implements IUseCase<SubmitServiceRe
       // 6. Build client answers with full question details
       const clientAnswers: ServiceClientAnswer[] = [];
       const allValidQuestions = [...generalQuestions, ...serviceSpecificQuestions];
-      
+
       for (const answer of payload.answers) {
         const question = allValidQuestions.find(q => q.id === answer.questionId);
         if (!question) {
@@ -142,7 +142,7 @@ export class SubmitServiceReservationUseCase implements IUseCase<SubmitServiceRe
         // Get answer details if answerId is provided
         let answerText: string | null = null;
         let answerMetadata: Record<string, unknown> | null = null;
-        
+
         if (answer.answerId) {
           const answerEntity = await this.formQuestionAnswerRepository.findById(answer.answerId);
           if (answerEntity) {
@@ -231,7 +231,7 @@ export class SubmitServiceReservationUseCase implements IUseCase<SubmitServiceRe
       if (!answer.answerId) {
         return { valid: false, error: 'Answer ID is required for selection questions' };
       }
-      
+
       // Verify answerId belongs to this question
       const answerEntity = await this.formQuestionAnswerRepository.findById(answer.answerId);
       if (!answerEntity || answerEntity.questionId !== question.id) {

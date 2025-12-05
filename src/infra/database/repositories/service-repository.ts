@@ -92,7 +92,7 @@ export class ServiceRepository implements IServiceRepository {
 
   async toggleStatus(id: string): Promise<Service> {
     const db = this.database.getInstance();
-    
+
     // First get the current service
     const currentService = await this.findById(id);
     if (!currentService) {
@@ -101,7 +101,7 @@ export class ServiceRepository implements IServiceRepository {
 
     // Toggle the status
     const [result] = await db.update(serviceTable)
-      .set({ 
+      .set({
         isActive: !currentService.isActive,
         updatedAt: new Date(),
       })
@@ -115,7 +115,7 @@ export class ServiceRepository implements IServiceRepository {
     const db = this.database.getInstance();
 
     await db.update(serviceTable)
-      .set({ 
+      .set({
         isActive,
         updatedAt: new Date(),
       })
@@ -124,7 +124,7 @@ export class ServiceRepository implements IServiceRepository {
 
   async checkServicesExistAndActive(ids: string[]): Promise<{ valid: boolean; invalidIds: string[] }> {
     const db = this.database.getInstance();
-    
+
     const services = await db.query.serviceTable.findMany({
       where: inArray(serviceTable.id, ids),
     });

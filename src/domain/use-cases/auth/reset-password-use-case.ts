@@ -38,7 +38,7 @@ export class ResetPasswordUseCase implements IUseCase<ResetPasswordUseCasePayloa
     try {
       // Find the reset token
       const resetToken = await this.passwordResetTokenRepository.findByToken(payload.token);
-      
+
       if (!resetToken) {
         return new Failure<ResetPasswordUseCaseFailure>({
           reason: 'InvalidToken',

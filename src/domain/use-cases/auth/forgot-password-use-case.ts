@@ -42,7 +42,7 @@ export class ForgotPasswordUseCase implements IUseCase<ForgotPasswordUseCasePayl
     try {
       // Find user by email
       const user = await this.userRepository.findOneByEmail(payload.email);
-      
+
       if (!user) {
         return new Failure<ForgotPasswordUseCaseFailure>({
           reason: 'UserNotFound',

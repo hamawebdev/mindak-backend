@@ -36,7 +36,7 @@ export class GetServiceReservationDetailsUseCase implements IUseCase<GetServiceR
   async execute(payload: GetServiceReservationDetailsUseCasePayload) {
     try {
       const reservation = await this.serviceReservationRepository.findById(payload.id);
-      
+
       if (!reservation) {
         return new Failure<GetServiceReservationDetailsUseCaseFailure>({
           reason: 'ReservationNotFound',

@@ -16,6 +16,8 @@ class ApiRouter extends BaseRouter {
     @inject(ROUTERS_DI_TYPES.AdminReservationsRouter) private readonly adminReservationsRouter: BaseRouter,
     @inject(ROUTERS_DI_TYPES.ClientReservationsRouter) private readonly clientReservationsRouter: BaseRouter,
     @inject(ROUTERS_DI_TYPES.AnalyticsRouter) private readonly analyticsRouter: BaseRouter,
+    @inject(ROUTERS_DI_TYPES.PodcastClientRouter) private readonly podcastClientRouter: BaseRouter,
+    @inject(ROUTERS_DI_TYPES.AdminPodcastConfigurationRouter) private readonly adminPodcastConfigurationRouter: BaseRouter,
   ) {
     super();
   }
@@ -31,6 +33,8 @@ class ApiRouter extends BaseRouter {
     this.router.use('/admin/reservations', this.adminReservationsRouter.getRouter());
     this.router.use('/client/reservations', this.clientReservationsRouter.getRouter());
     this.router.use('/admin/analytics', this.analyticsRouter.getRouter());
+    this.router.use('/client', this.podcastClientRouter.getRouter());
+    this.router.use('/admin', this.adminPodcastConfigurationRouter.getRouter());
   }
 }
 

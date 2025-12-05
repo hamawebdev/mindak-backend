@@ -10,6 +10,8 @@ import { ClientServicesRouter } from '@/app/routers/client-services-router';
 import { AdminReservationsRouter } from '@/app/routers/admin-reservations-router';
 import { ClientReservationsRouter } from '@/app/routers/client-reservations-router';
 import { AnalyticsRouter } from '@/app/routers/analytics-router';
+import { PodcastClientRouter } from '@/app/routers/podcast-client-router';
+import { AdminPodcastConfigurationRouter } from '@/app/routers/admin-podcast-configuration-router';
 import type { ContainerBuilder } from '@/container/container';
 import { ROUTERS_DI_TYPES } from '@/container/routers/di-types';
 
@@ -24,7 +26,7 @@ export const registerRouters = (containerBuilder: ContainerBuilder) => {
  * This class is used to register all the routers in the container
  */
 class RoutersContainerBuilder {
-  constructor(private readonly containerBuilder: ContainerBuilder) {}
+  constructor(private readonly containerBuilder: ContainerBuilder) { }
 
   registerRouters() {
     this.containerBuilder.registerActions.push((container) => {
@@ -59,6 +61,12 @@ class RoutersContainerBuilder {
     });
     this.containerBuilder.registerActions.push((container) => {
       container.bind<BaseRouter>(ROUTERS_DI_TYPES.AnalyticsRouter).to(AnalyticsRouter).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<BaseRouter>(ROUTERS_DI_TYPES.PodcastClientRouter).to(PodcastClientRouter).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<BaseRouter>(ROUTERS_DI_TYPES.AdminPodcastConfigurationRouter).to(AdminPodcastConfigurationRouter).inSingletonScope();
     });
 
     return this.containerBuilder;

@@ -10,4 +10,6 @@ export const ROUTERS_DI_TYPES = {
   AdminReservationsRouter: Symbol.for('AdminReservationsRouter'),
   ClientReservationsRouter: Symbol.for('ClientReservationsRouter'),
   AnalyticsRouter: Symbol.for('AnalyticsRouter'),
+  PodcastClientRouter: Symbol.for('PodcastClientRouter'),
+  AdminPodcastConfigurationRouter: Symbol.for('AdminPodcastConfigurationRouter'),
 };

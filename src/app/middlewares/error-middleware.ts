@@ -51,7 +51,7 @@ export class ErrorMiddleware implements IErrorMiddleware {
         message: e.message,
         code: e.code,
       }));
-      error = HttpError.badRequest('Invalid request body', {
+      error = HttpError.badRequest('Validation error', {
         code: 'VALIDATION_ERROR',
         details: zodDetails,
       });

@@ -25,7 +25,7 @@ export class FormQuestionRepository implements IFormQuestionRepository {
 
   async findByFormTypeAndSection(formType: FormType, sectionType: SectionType, serviceId?: string): Promise<FormQuestion[]> {
     const db = this.database.getInstance();
-    
+
     const conditions = [
       eq(formQuestionTable.formType, formType),
       eq(formQuestionTable.sectionType, sectionType),
@@ -135,7 +135,7 @@ export class FormQuestionRepository implements IFormQuestionRepository {
 
   async findActiveByFormTypeAndSection(formType: FormType, sectionType: SectionType, serviceId?: string): Promise<FormQuestion[]> {
     const db = this.database.getInstance();
-    
+
     const conditions = [
       eq(formQuestionTable.formType, formType),
       eq(formQuestionTable.sectionType, sectionType),

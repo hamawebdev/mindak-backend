@@ -32,7 +32,7 @@ export class ReservationStatusHistoryRepository implements IReservationStatusHis
 
   async findByReservationId(reservationId: string, reservationType: ReservationType): Promise<ReservationStatusHistory[]> {
     const db = this.database.getInstance();
-    
+
     const histories = await db.query.reservationStatusHistoryTable.findMany({
       where: and(
         eq(reservationStatusHistoryTable.reservationId, reservationId),

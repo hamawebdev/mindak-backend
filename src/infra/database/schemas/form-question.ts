@@ -1,6 +1,7 @@
 import type { InferSelectModel } from 'drizzle-orm';
 import { uuid, pgTable, text, varchar, integer, boolean, timestamp, jsonb, check } from 'drizzle-orm/pg-core';
 import { sql } from 'drizzle-orm';
+
 import { serviceTable } from './service';
 
 // Enum types for form questions

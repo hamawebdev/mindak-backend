@@ -19,7 +19,7 @@ class AdminServicesRouter extends BaseRouter {
     @inject(REQUEST_HANDLERS_DI_TYPES.DeleteServiceRequestHandler) private readonly deleteServiceRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.ToggleServiceStatusRequestHandler) private readonly toggleServiceStatusRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.BulkUpdateServiceStatusRequestHandler) private readonly bulkUpdateServiceStatusRequestHandler: IRequestHandler,
-    
+
     // Middlewares
     @inject(MIDDLEWARES_DI_TYPES.CurrentUserMiddleware) private readonly currentUserMiddleware: ICurrentUserMiddleware,
     @inject(MIDDLEWARES_DI_TYPES.AuthenticatedMiddleware) private readonly authenticatedMiddleware: IAuthenticatedMiddleware,

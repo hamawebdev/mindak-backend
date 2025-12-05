@@ -85,7 +85,7 @@ export class AnalyticsRepository implements IAnalyticsRepository {
 
     const totalReservations = Number(podcastStats.total) + Number(serviceStats.total);
     const previousTotalReservations = Number(previousPodcastStats.total) + Number(previousServiceStats.total);
-    
+
     const completedReservations = Number(podcastStats.completed) + Number(serviceStats.completed);
     const conversionRate = totalReservations > 0 ? (completedReservations / totalReservations) * 100 : 0;
 
@@ -256,8 +256,8 @@ export class AnalyticsRepository implements IAnalyticsRepository {
     let data: Array<{ date: string; value: number }> = [];
 
     if (metric === 'reservations' || metric === 'podcast' || metric === 'services') {
-      const table = metric === 'podcast' ? podcastReservationTable : 
-                    metric === 'services' ? serviceReservationTable : null;
+      const table = metric === 'podcast' ? podcastReservationTable :
+        metric === 'services' ? serviceReservationTable : null;
 
       if (table) {
         const results = await db

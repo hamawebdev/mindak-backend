@@ -16,7 +16,7 @@ export class FileUpload implements IFileUpload {
 
   async saveFile(file: Buffer, filename: string, subfolder?: string): Promise<string> {
     // Ensure uploads directory exists
-    const targetDir = subfolder 
+    const targetDir = subfolder
       ? path.join(this.uploadsDir, subfolder)
       : this.uploadsDir;
 
@@ -27,7 +27,7 @@ export class FileUpload implements IFileUpload {
     await fs.writeFile(filePath, file);
 
     // Return the URL path (relative to the uploads directory)
-    const urlPath = subfolder 
+    const urlPath = subfolder
       ? `/uploads/${subfolder}/${filename}`
       : `/uploads/${filename}`;
 
@@ -39,7 +39,7 @@ export class FileUpload implements IFileUpload {
       // Remove leading slash and 'uploads/' from the path
       const relativePath = filePath.replace(/^\/uploads\//, '');
       const fullPath = path.join(this.uploadsDir, relativePath);
-      
+
       await fs.unlink(fullPath);
     } catch (error) {
       // Ignore errors if file doesn't exist
@@ -53,7 +53,7 @@ export class FileUpload implements IFileUpload {
     const ext = path.extname(originalFilename);
     const timestamp = Date.now();
     const randomString = randomBytes(8).toString('hex');
-    
+
     return `${timestamp}-${randomString}${ext}`;
   }
 }

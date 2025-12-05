@@ -36,7 +36,7 @@ export class GetPodcastReservationDetailsUseCase implements IUseCase<GetPodcastR
   async execute(payload: GetPodcastReservationDetailsUseCasePayload) {
     try {
       const reservation = await this.podcastReservationRepository.findById(payload.id);
-      
+
       if (!reservation) {
         return new Failure<GetPodcastReservationDetailsUseCaseFailure>({
           reason: 'ReservationNotFound',

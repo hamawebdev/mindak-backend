@@ -5,7 +5,7 @@ export type ServiceId = Id<'Service'>;
 
 export type FormType = 'podcast' | 'services';
 export type SectionType = 'general' | 'service_specific';
-export type QuestionType = 
+export type QuestionType =
   | 'text'
   | 'email'
   | 'phone'

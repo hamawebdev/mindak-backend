@@ -1,46 +1,21 @@
-yarn docker:up
-yarn migration:run
+Replace the existing pack description field with a flexible pack metadata structure.
 
+Requirements:
 
-Goal: Begin the backend implementation for the Agency Website Project based on the uploaded specification document (mindak backend.md).
+Implement a metadata system for packs where the admin can create, edit, and remove any number of custom fields (text, numbers, options, etc.).
 
-Instruction: Start the backend development process phase by phase, following the structure and details provided in the document. Each phase should include well-defined deliverables, API design adherence, and database alignment.
+Remove the old description field from pack management.
 
+Ensure full CRUD support for pack metadata in the admin API.
 
+Update the client-side application to consume and display this metadata instead of the deprecated description field.
 
-The backend implementation for the agency platform is complete.
-Generate a comprehensive API documentation for frontend integration.
+Guarantee backward compatibility or define a clean migration path.
 
-The documentation must clearly define for each endpoint:
-
-Endpoint URL and HTTP method
-
-Request headers (if required)
-
-Request body schema (with example)
-
-Response structure (with example)
-
-Validation rules or notes if applicable
-
-Focus first on the user-side (client) endpoints related to:
-
-Services retrieval and forms — including both general and service-specific sections.
-
-Podcast forms and reservations — covering question retrieval and form submission.
-
-Ensure the structure follows a consistent format and uses concise technical language for developers.
-Clearly separate each group (services form, podcast form, reservation submission) and include example JSON for request and response.
-
-The goal is to produce integration-ready API documentation for frontend developers to successfully connect all user-facing features.
+Goal:
+Provide a fully dynamic metadata-based pack configuration system that works consistently across admin and client interfaces.
 
 
 
-# Connect to PostgreSQL (you'll be prompted for password)
-psql -U postgres -h localhost
-
-# Then create the database
-CREATE DATABASE api_db;
-
-# Exit psql
-\q
+npm run migration:generate
+npm run migration:run

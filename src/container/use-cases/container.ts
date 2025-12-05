@@ -53,9 +53,13 @@ import { GetActiveServicesUseCase } from '@/domain/use-cases/service/get-active-
 import { SubmitPodcastReservationUseCase } from '@/domain/use-cases/reservation/submit-podcast-reservation-use-case';
 import { SubmitServiceReservationUseCase } from '@/domain/use-cases/reservation/submit-service-reservation-use-case';
 import { GetReservationConfirmationUseCase } from '@/domain/use-cases/reservation/get-reservation-confirmation-use-case';
+import { CreatePodcastReservationAdminUseCase } from '@/domain/use-cases/reservation/create-podcast-reservation-admin-use-case';
 import { ListPodcastReservationsUseCase } from '@/domain/use-cases/reservation/list-podcast-reservations-use-case';
 import { GetPodcastReservationDetailsUseCase } from '@/domain/use-cases/reservation/get-podcast-reservation-details-use-case';
+import { GetConfirmedCalendarUseCase } from '@/domain/use-cases/reservation/get-confirmed-calendar-use-case';
+import { GetPendingCalendarUseCase } from '@/domain/use-cases/reservation/get-pending-calendar-use-case';
 import { UpdatePodcastReservationStatusUseCase } from '@/domain/use-cases/reservation/update-podcast-reservation-status-use-case';
+import { UpdatePodcastReservationScheduleUseCase } from '@/domain/use-cases/reservation/update-podcast-reservation-schedule-use-case';
 import { AddPodcastReservationNoteUseCase } from '@/domain/use-cases/reservation/add-podcast-reservation-note-use-case';
 import { DeletePodcastReservationUseCase } from '@/domain/use-cases/reservation/delete-podcast-reservation-use-case';
 import { ListServiceReservationsUseCase } from '@/domain/use-cases/reservation/list-service-reservations-use-case';
@@ -74,6 +78,28 @@ import { GetTrendAnalysisUseCase } from '@/domain/use-cases/analytics/get-trend-
 import { GetTopServicesUseCase } from '@/domain/use-cases/analytics/get-top-services-use-case';
 import { GetRealtimeDashboardUseCase } from '@/domain/use-cases/analytics/get-realtime-dashboard-use-case';
 
+// Podcast Configuration Use Cases
+import { CreatePodcastDecorUseCase } from '@/domain/use-cases/podcast-configuration/create-podcast-decor-use-case';
+import { UpdatePodcastDecorUseCase } from '@/domain/use-cases/podcast-configuration/update-podcast-decor-use-case';
+import { DeletePodcastDecorUseCase } from '@/domain/use-cases/podcast-configuration/delete-podcast-decor-use-case';
+import { CreatePodcastPackOfferUseCase } from '@/domain/use-cases/podcast-configuration/create-podcast-pack-use-case';
+import { UpdatePodcastPackOfferUseCase } from '@/domain/use-cases/podcast-configuration/update-podcast-pack-use-case';
+import { DeletePodcastPackOfferUseCase } from '@/domain/use-cases/podcast-configuration/delete-podcast-pack-use-case';
+import { CreatePodcastSupplementUseCase } from '@/domain/use-cases/podcast-configuration/create-podcast-supplement-use-case';
+import { UpdatePodcastSupplementUseCase } from '@/domain/use-cases/podcast-configuration/update-podcast-supplement-use-case';
+import { DeletePodcastSupplementUseCase } from '@/domain/use-cases/podcast-configuration/delete-podcast-supplement-use-case';
+import { CreatePodcastFormStepUseCase } from '@/domain/use-cases/podcast-configuration/steps/create-podcast-form-step-use-case';
+import { UpdatePodcastFormStepUseCase } from '@/domain/use-cases/podcast-configuration/steps/update-podcast-form-step-use-case';
+import { DeletePodcastFormStepUseCase } from '@/domain/use-cases/podcast-configuration/steps/delete-podcast-form-step-use-case';
+import { GetPodcastFormStructureUseCase } from '@/domain/use-cases/podcast-configuration/get-podcast-form-structure-use-case';
+import { CreatePodcastFormQuestionUseCase } from '@/domain/use-cases/podcast-configuration/questions/create-podcast-form-question-use-case';
+import { UpdatePodcastFormQuestionUseCase } from '@/domain/use-cases/podcast-configuration/questions/update-podcast-form-question-use-case';
+import { DeletePodcastFormQuestionUseCase } from '@/domain/use-cases/podcast-configuration/questions/delete-podcast-form-question-use-case';
+import { CreatePodcastThemeUseCase } from '@/domain/use-cases/podcast-configuration/create-podcast-theme-use-case';
+import { UpdatePodcastThemeUseCase } from '@/domain/use-cases/podcast-configuration/update-podcast-theme-use-case';
+import { DeletePodcastThemeUseCase } from '@/domain/use-cases/podcast-configuration/delete-podcast-theme-use-case';
+import { GetPodcastThemesUseCase } from '@/domain/use-cases/podcast-configuration/get-podcast-themes-use-case';
+
 export const registerUseCases = (containerBuilder: ContainerBuilder) => {
   const builder = new UseCasesContainerBuilder(containerBuilder)
     .registerUseCases();
@@ -85,7 +111,7 @@ export const registerUseCases = (containerBuilder: ContainerBuilder) => {
  * This class is used to register all the use cases in the container
  */
 class UseCasesContainerBuilder {
-  constructor(private readonly containerBuilder: ContainerBuilder) {}
+  constructor(private readonly containerBuilder: ContainerBuilder) { }
 
   registerUseCases() {
     this
@@ -94,7 +120,8 @@ class UseCasesContainerBuilder {
       .registerFormUseCases()
       .registerServiceUseCases()
       .registerReservationUseCases()
-      .registerAnalyticsUseCases();
+      .registerAnalyticsUseCases()
+      .registerPodcastConfigurationUseCases();
 
     return this.containerBuilder;
   }
@@ -295,6 +322,10 @@ class UseCasesContainerBuilder {
 
     // Admin - Podcast Reservations Use Cases
     this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastReservationAdminUseCase).to(CreatePodcastReservationAdminUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
       container.bind<IUseCase>(USE_CASES_DI_TYPES.ListPodcastReservationsUseCase).to(ListPodcastReservationsUseCase).inSingletonScope();
     });
 
@@ -307,7 +338,19 @@ class UseCasesContainerBuilder {
     });
 
     this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.GetConfirmedCalendarUseCase).to(GetConfirmedCalendarUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.GetPendingCalendarUseCase).to(GetPendingCalendarUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
       container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastReservationStatusUseCase).to(UpdatePodcastReservationStatusUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastReservationScheduleUseCase).to(UpdatePodcastReservationScheduleUseCase).inSingletonScope();
     });
 
     this.containerBuilder.registerActions.push((container) => {
@@ -369,6 +412,76 @@ class UseCasesContainerBuilder {
 
     this.containerBuilder.registerActions.push((container) => {
       container.bind<IUseCase>(USE_CASES_DI_TYPES.GetRealtimeDashboardUseCase).to(GetRealtimeDashboardUseCase).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastConfigurationUseCases() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastDecorUseCase).to(CreatePodcastDecorUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastDecorUseCase).to(UpdatePodcastDecorUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastDecorUseCase).to(DeletePodcastDecorUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastPackOfferUseCase).to(CreatePodcastPackOfferUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastPackOfferUseCase).to(UpdatePodcastPackOfferUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastPackOfferUseCase).to(DeletePodcastPackOfferUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastSupplementUseCase).to(CreatePodcastSupplementUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastSupplementUseCase).to(UpdatePodcastSupplementUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastSupplementUseCase).to(DeletePodcastSupplementUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastFormStepUseCase).to(CreatePodcastFormStepUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastFormStepUseCase).to(UpdatePodcastFormStepUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastFormStepUseCase).to(DeletePodcastFormStepUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.GetPodcastFormStructureUseCase).to(GetPodcastFormStructureUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastFormQuestionUseCase).to(CreatePodcastFormQuestionUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastFormQuestionUseCase).to(UpdatePodcastFormQuestionUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastFormQuestionUseCase).to(DeletePodcastFormQuestionUseCase).inSingletonScope();
+    });
+
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.CreatePodcastThemeUseCase).to(CreatePodcastThemeUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.UpdatePodcastThemeUseCase).to(UpdatePodcastThemeUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.DeletePodcastThemeUseCase).to(DeletePodcastThemeUseCase).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IUseCase>(USE_CASES_DI_TYPES.GetPodcastThemesUseCase).to(GetPodcastThemesUseCase).inSingletonScope();
     });
 
     return this;

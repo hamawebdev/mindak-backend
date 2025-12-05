@@ -30,7 +30,7 @@ export class ReservationNoteRepository implements IReservationNoteRepository {
 
   async findByReservationId(reservationId: string, reservationType: ReservationType): Promise<ReservationNote[]> {
     const db = this.database.getInstance();
-    
+
     const notes = await db.query.reservationNoteTable.findMany({
       where: and(
         eq(reservationNoteTable.reservationId, reservationId),

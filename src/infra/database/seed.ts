@@ -11,13 +11,22 @@ import { formQuestionAnswerTable } from './schemas/form-question-answer';
 import { podcastReservationTable } from './schemas/podcast-reservation';
 import { serviceReservationTable } from './schemas/service-reservation';
 import { analyticsEventTable } from './schemas/analytics-event';
+import { podcastDecorTable } from './schemas/podcast-decor';
+import { podcastPackOfferTable } from './schemas/podcast-pack-offer';
+import { podcastSupplementServiceTable } from './schemas/podcast-supplement-service';
+import { podcastReservationNewTable } from './schemas/podcast-reservation-new';
+
+import { podcastReservationSupplementTable } from './schemas/podcast-reservation-supplement';
+import { podcastReservationAnswerTable } from './schemas/podcast-reservation-answer';
+import { reservationNoteTable } from './schemas/reservation-note';
+import { reservationStatusHistoryTable } from './schemas/reservation-status-history';
 
 // Load environment variables
 config();
 
 const getDbConfig = () => {
   const isTest = process.env.NODE_ENV === 'test';
-  
+
   return {
     host: isTest ? process.env.TEST_DB_HOST : process.env.DB_HOST,
     port: isTest ? parseInt(process.env.TEST_DB_PORT || '5432', 10) : parseInt(process.env.DB_PORT || '5432', 10),
@@ -31,7 +40,7 @@ const getDbConfig = () => {
 async function seed() {
   const dbConfig = getDbConfig();
   const pool = new Pool(dbConfig);
-  
+
   const db = drizzle({
     schema: {
       userTable,
@@ -42,6 +51,14 @@ async function seed() {
       podcastReservationTable,
       serviceReservationTable,
       analyticsEventTable,
+      podcastDecorTable,
+      podcastPackOfferTable,
+      podcastSupplementServiceTable,
+      podcastReservationNewTable,
+      podcastReservationSupplementTable,
+      podcastReservationAnswerTable,
+      reservationNoteTable,
+      reservationStatusHistoryTable,
     },
     client: pool,
   });
@@ -49,10 +66,30 @@ async function seed() {
   console.log('🌱 Starting database seeding...');
 
   try {
+    // 0. Clean up existing data
+    console.log('🧹 Cleaning up existing data...');
+    await db.delete(analyticsEventTable);
+    await db.delete(reservationNoteTable);
+    await db.delete(reservationStatusHistoryTable);
+    await db.delete(podcastReservationSupplementTable);
+    await db.delete(podcastReservationAnswerTable);
+    await db.delete(podcastReservationNewTable);
+    await db.delete(podcastReservationTable);
+    await db.delete(serviceReservationTable);
+    await db.delete(formQuestionAnswerTable);
+    await db.delete(formQuestionTable);
+    await db.delete(serviceTable);
+    await db.delete(serviceCategoryTable);
+    await db.delete(podcastDecorTable);
+    await db.delete(podcastPackOfferTable);
+    await db.delete(podcastSupplementServiceTable);
+    await db.delete(userTable);
+    console.log('✅ Database cleaned');
+
     // 1. Seed Users
     console.log('👤 Seeding users...');
     const hashedPassword = await bcrypt.hash('password123', 10);
-    
+
     const users = await db.insert(userTable).values([
       {
         email: 'admin@mindak.com',
@@ -202,96 +239,57 @@ async function seed() {
       {
         formType: 'podcast',
         sectionType: 'general',
-        questionText: 'What is your full name?',
+        questionText: 'What is your podcast name?',
         questionType: 'text',
         required: true,
         order: 1,
-        placeholder: 'John Doe',
-        helpText: 'Please provide your full name as you would like it to appear',
+        helpText: 'The name of your podcast show',
         isActive: true,
       },
       {
         formType: 'podcast',
         sectionType: 'general',
-        questionText: 'What is your email address?',
-        questionType: 'email',
+        questionText: 'Episode type',
+        questionType: 'checkbox',
         required: true,
         order: 2,
-        placeholder: 'john@example.com',
-        helpText: 'We will use this to contact you',
+        helpText: 'Select all that apply',
         isActive: true,
       },
       {
         formType: 'podcast',
         sectionType: 'general',
-        questionText: 'What is your phone number?',
-        questionType: 'phone',
+        questionText: 'Number of guests',
+        questionType: 'number',
         required: false,
         order: 3,
-        placeholder: '+1 (555) 123-4567',
-        isActive: true,
-      },
-      {
-        formType: 'podcast',
-        sectionType: 'general',
-        questionText: 'What topic would you like to discuss?',
-        questionType: 'textarea',
-        required: true,
-        order: 4,
-        placeholder: 'Tell us about the topic you want to discuss...',
-        helpText: 'Please provide as much detail as possible',
-        isActive: true,
-      },
-      {
-        formType: 'podcast',
-        sectionType: 'general',
-        questionText: 'Preferred recording date',
-        questionType: 'date',
-        required: false,
-        order: 5,
-        helpText: 'Select your preferred date for the podcast recording',
-        isActive: true,
-      },
-      {
-        formType: 'podcast',
-        sectionType: 'general',
-        questionText: 'How did you hear about us?',
-        questionType: 'select',
-        required: false,
-        order: 6,
+        helpText: 'How many guests will be joining?',
         isActive: true,
       },
     ]).returning();
 
-    // 5. Seed Form Question Answers for Podcast "How did you hear about us?"
-    console.log('💬 Seeding form question answers...');
+    // 5. Seed Form Question Options for Podcast "Episode type"
+    console.log('💬 Seeding form question options...');
     await db.insert(formQuestionAnswerTable).values([
       {
-        questionId: podcastQuestions[5].id,
-        answerText: 'Social Media',
-        answerValue: 'social_media',
+        questionId: podcastQuestions[1].id, // Episode type
+        answerText: 'Interview',
+        answerValue: 'interview',
         order: 1,
         isActive: true,
       },
       {
-        questionId: podcastQuestions[5].id,
-        answerText: 'Google Search',
-        answerValue: 'google',
+        questionId: podcastQuestions[1].id, // Episode type
+        answerText: 'Solo Episode',
+        answerValue: 'solo',
         order: 2,
         isActive: true,
       },
       {
-        questionId: podcastQuestions[5].id,
-        answerText: 'Friend Referral',
-        answerValue: 'referral',
+        questionId: podcastQuestions[1].id, // Episode type
+        answerText: 'Panel Discussion',
+        answerValue: 'panel',
         order: 3,
-        isActive: true,
-      },
-      {
-        questionId: podcastQuestions[5].id,
-        answerText: 'Other',
-        answerValue: 'other',
-        order: 4,
         isActive: true,
       },
     ]);
@@ -504,7 +502,7 @@ async function seed() {
       },
     ]);
 
-    console.log(`✅ Created form questions and answers`);
+    console.log('✅ Created form questions and answers');
 
     // 12. Seed Sample Podcast Reservations
     console.log('🎙️  Seeding podcast reservations...');
@@ -516,29 +514,29 @@ async function seed() {
         clientAnswers: [
           {
             questionId: podcastQuestions[0].id,
-            questionText: 'What is your full name?',
+            questionText: 'What is your podcast name?',
             questionType: 'text',
-            value: 'Jane Smith',
+            value: 'The Growth Lab Podcast',
             answerId: null,
-            answerText: null,
+            answerText: 'The Growth Lab Podcast',
             answerMetadata: {},
           },
           {
             questionId: podcastQuestions[1].id,
-            questionText: 'What is your email address?',
-            questionType: 'email',
-            value: 'jane.smith@example.com',
+            questionText: 'Episode type',
+            questionType: 'checkbox',
+            value: 'Interview',
             answerId: null,
             answerText: null,
             answerMetadata: {},
           },
           {
-            questionId: podcastQuestions[3].id,
-            questionText: 'What topic would you like to discuss?',
-            questionType: 'textarea',
-            value: 'I would like to discuss the future of AI in marketing and how businesses can leverage it.',
+            questionId: podcastQuestions[2].id,
+            questionText: 'Number of guests',
+            questionType: 'number',
+            value: '2',
             answerId: null,
-            answerText: null,
+            answerText: '2',
             answerMetadata: {},
           },
         ],
@@ -552,29 +550,29 @@ async function seed() {
         clientAnswers: [
           {
             questionId: podcastQuestions[0].id,
-            questionText: 'What is your full name?',
+            questionText: 'What is your podcast name?',
             questionType: 'text',
-            value: 'Michael Johnson',
+            value: 'Tech Talk Daily',
             answerId: null,
-            answerText: null,
+            answerText: 'Tech Talk Daily',
             answerMetadata: {},
           },
           {
             questionId: podcastQuestions[1].id,
-            questionText: 'What is your email address?',
-            questionType: 'email',
-            value: 'michael.j@example.com',
+            questionText: 'Episode type',
+            questionType: 'checkbox',
+            value: 'Solo Episode',
             answerId: null,
             answerText: null,
             answerMetadata: {},
           },
           {
-            questionId: podcastQuestions[3].id,
-            questionText: 'What topic would you like to discuss?',
-            questionType: 'textarea',
-            value: 'Sustainable business practices and environmental responsibility',
+            questionId: podcastQuestions[2].id,
+            questionText: 'Number of guests',
+            questionType: 'number',
+            value: '0',
             answerId: null,
-            answerText: null,
+            answerText: '0',
             answerMetadata: {},
           },
         ],
@@ -707,17 +705,153 @@ async function seed() {
         },
       },
     ]);
-    console.log(`✅ Created analytics events`);
+    console.log('✅ Created analytics events');
+
+    // 15. Seed Podcast Decors
+    console.log('🎨 Seeding podcast decors...');
+    const decors = await db.insert(podcastDecorTable).values([
+      {
+        name: 'Urban Loft',
+        description: 'Modern industrial setting with exposed brick and natural lighting',
+        imageUrl: 'https://cdn.example.com/decor/urban-loft.jpg',
+        sortOrder: 1,
+        isActive: true,
+      },
+      {
+        name: 'Minimalist Studio',
+        description: 'Clean, professional white backdrop with acoustic treatment',
+        imageUrl: 'https://cdn.example.com/decor/minimalist-studio.jpg',
+        sortOrder: 2,
+        isActive: true,
+      },
+    ]).returning();
+    console.log(`✅ Created ${decors.length} podcast decors`);
+
+    // 16. Seed Podcast Pack Offers
+    console.log('📦 Seeding podcast pack offers...');
+    const packs = await db.insert(podcastPackOfferTable).values([
+      {
+        name: 'Basic Recording',
+        description: '1-hour recording session with basic equipment',
+        basePrice: '100.00',
+        durationMin: 60,
+        sortOrder: 1,
+        isActive: true,
+      },
+      {
+        name: 'Premium Recording',
+        description: '2-hour recording session with professional equipment',
+        basePrice: '200.00',
+        durationMin: 120,
+        sortOrder: 2,
+        isActive: true,
+      },
+      {
+        name: 'Extended Session',
+        description: '3-hour recording session with full production support',
+        basePrice: '280.00',
+        durationMin: 180,
+        sortOrder: 3,
+        isActive: true,
+      },
+    ]).returning();
+    console.log(`✅ Created ${packs.length} podcast pack offers`);
+
+    // 17. Seed Podcast Supplement Services
+    console.log('➕ Seeding podcast supplement services...');
+    const supplements = await db.insert(podcastSupplementServiceTable).values([
+      {
+        name: 'Professional Editing',
+        description: 'Full audio editing and mastering service',
+        price: '80.00',
+        sortOrder: 1,
+        isActive: true,
+      },
+      {
+        name: 'Video Recording',
+        description: 'Multi-camera video recording of your session',
+        price: '150.00',
+        sortOrder: 2,
+        isActive: true,
+      },
+      {
+        name: 'Transcription Service',
+        description: 'Professional transcription of your episode',
+        price: '50.00',
+        sortOrder: 3,
+        isActive: true,
+      },
+    ]).returning();
+    console.log(`✅ Created ${supplements.length} podcast supplement services`);
+
+    // 18. Seed New Podcast Reservations (for Calendar)
+    console.log('📅 Seeding new podcast reservations for calendar...');
+
+    // Create dates for next week
+    const today = new Date();
+    const nextWeek = new Date(today);
+    nextWeek.setDate(today.getDate() + 7);
+    nextWeek.setHours(10, 0, 0, 0); // 10:00 AM
+
+    const nextWeekEnd = new Date(nextWeek);
+    nextWeekEnd.setHours(12, 0, 0, 0); // 12:00 PM (2 hours)
+
+    const dayAfterNext = new Date(nextWeek);
+    dayAfterNext.setDate(nextWeek.getDate() + 1);
+    dayAfterNext.setHours(14, 0, 0, 0); // 2:00 PM
+
+    const dayAfterNextEnd = new Date(dayAfterNext);
+    dayAfterNextEnd.setHours(15, 0, 0, 0); // 3:00 PM (1 hour)
+
+    const newReservations = await db.insert(podcastReservationNewTable).values([
+      {
+        confirmationId: 'RES-2025-001',
+        status: 'confirmed',
+        startAt: nextWeek,
+        endAt: nextWeekEnd,
+        durationHours: 2,
+        timezone: 'Europe/Paris',
+        decorId: decors[0].id,
+        packOfferId: packs[1].id, // Premium (2 hours)
+        customerName: 'Alice Wonderland',
+        customerEmail: 'alice@example.com',
+        customerPhone: '+1234567890',
+        notes: 'First time recording',
+        totalPrice: '200.00',
+        assignedAdminId: users[0].id,
+        confirmedByAdminId: users[0].id,
+        confirmedAt: new Date(),
+      },
+      {
+        confirmationId: 'RES-2025-002',
+        status: 'confirmed',
+        startAt: dayAfterNext,
+        endAt: dayAfterNextEnd,
+        durationHours: 1,
+        timezone: 'Europe/Paris',
+        decorId: decors[1].id,
+        packOfferId: packs[0].id, // Basic (1 hour)
+        customerName: 'Bob Builder',
+        customerEmail: 'bob@example.com',
+        customerPhone: '+0987654321',
+        notes: 'Needs video recording',
+        totalPrice: '100.00',
+        assignedAdminId: users[0].id,
+        confirmedByAdminId: users[0].id,
+        confirmedAt: new Date(),
+      },
+    ]).returning();
+    console.log(`✅ Created ${newReservations.length} new podcast reservations`);
 
     console.log('\n✨ Database seeding completed successfully!');
     console.log('\n📝 Summary:');
     console.log(`   - ${users.length} users created`);
     console.log(`   - ${categories.length} service categories created`);
     console.log(`   - ${services.length} services created`);
-    console.log(`   - Multiple form questions and answers created`);
+    console.log('   - Multiple form questions and answers created');
     console.log(`   - ${podcastReservations.length} podcast reservations created`);
     console.log(`   - ${serviceReservations.length} service reservations created`);
-    console.log(`   - 6 analytics events created`);
+    console.log('   - 6 analytics events created');
     console.log('\n🔑 Test credentials:');
     console.log('   Admin: admin@mindak.com / password123');
     console.log('   User: user@mindak.com / password123');

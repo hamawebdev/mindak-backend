@@ -1,5 +1,6 @@
 import type { InferSelectModel } from 'drizzle-orm';
 import { uuid, pgTable, text, varchar, integer, boolean, timestamp, jsonb } from 'drizzle-orm/pg-core';
+
 import { formQuestionTable } from './form-question';
 
 export const formQuestionAnswerTable = pgTable('form_question_answer', {

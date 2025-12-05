@@ -63,14 +63,24 @@ export const REQUEST_HANDLERS_DI_TYPES = {
   SubmitPodcastReservationRequestHandler: Symbol.for('SubmitPodcastReservationRequestHandler'),
   SubmitServiceReservationRequestHandler: Symbol.for('SubmitServiceReservationRequestHandler'),
   GetReservationConfirmationRequestHandler: Symbol.for('GetReservationConfirmationRequestHandler'),
+  GetFormConfigRequestHandler: Symbol.for('GetFormConfigRequestHandler'),
+  GetAvailabilityRequestHandler: Symbol.for('GetAvailabilityRequestHandler'),
+  CreateReservationRequestHandler: Symbol.for('CreateReservationRequestHandler'),
 
   // Admin - Podcast Reservations
+  CreatePodcastReservationRequestHandler: Symbol.for('CreatePodcastReservationRequestHandler'),
   ListPodcastReservationsRequestHandler: Symbol.for('ListPodcastReservationsRequestHandler'),
   GetPodcastReservationDetailsRequestHandler: Symbol.for('GetPodcastReservationDetailsRequestHandler'),
   GetPodcastClientDataRequestHandler: Symbol.for('GetPodcastClientDataRequestHandler'),
+  GetConfirmedCalendarRequestHandler: Symbol.for('GetConfirmedCalendarRequestHandler'),
+  GetPendingCalendarRequestHandler: Symbol.for('GetPendingCalendarRequestHandler'),
   UpdatePodcastReservationStatusRequestHandler: Symbol.for('UpdatePodcastReservationStatusRequestHandler'),
+  UpdatePodcastReservationScheduleRequestHandler: Symbol.for('UpdatePodcastReservationScheduleRequestHandler'),
   AddPodcastReservationNoteRequestHandler: Symbol.for('AddPodcastReservationNoteRequestHandler'),
   DeletePodcastReservationRequestHandler: Symbol.for('DeletePodcastReservationRequestHandler'),
+  GetDecorsRequestHandler: Symbol.for('GetDecorsRequestHandler'),
+  GetPacksRequestHandler: Symbol.for('GetPacksRequestHandler'),
+  GetSupplementsRequestHandler: Symbol.for('GetSupplementsRequestHandler'),
 
   // Admin - Service Reservations
   ListServiceReservationsRequestHandler: Symbol.for('ListServiceReservationsRequestHandler'),
@@ -87,4 +97,41 @@ export const REQUEST_HANDLERS_DI_TYPES = {
   GetTrendAnalysisRequestHandler: Symbol.for('GetTrendAnalysisRequestHandler'),
   GetTopServicesRequestHandler: Symbol.for('GetTopServicesRequestHandler'),
   GetRealtimeDashboardRequestHandler: Symbol.for('GetRealtimeDashboardRequestHandler'),
+
+  // Podcast Configuration Request Handlers
+  // Decors
+  CreatePodcastDecorRequestHandler: Symbol.for('CreatePodcastDecorRequestHandler'),
+  UpdatePodcastDecorRequestHandler: Symbol.for('UpdatePodcastDecorRequestHandler'),
+  DeletePodcastDecorRequestHandler: Symbol.for('DeletePodcastDecorRequestHandler'),
+
+  // Packs
+  CreatePodcastPackOfferRequestHandler: Symbol.for('CreatePodcastPackOfferRequestHandler'),
+  UpdatePodcastPackOfferRequestHandler: Symbol.for('UpdatePodcastPackOfferRequestHandler'),
+  DeletePodcastPackOfferRequestHandler: Symbol.for('DeletePodcastPackOfferRequestHandler'),
+
+  // Supplements
+  CreatePodcastSupplementRequestHandler: Symbol.for('CreatePodcastSupplementRequestHandler'),
+  UpdatePodcastSupplementRequestHandler: Symbol.for('UpdatePodcastSupplementRequestHandler'),
+  DeletePodcastSupplementRequestHandler: Symbol.for('DeletePodcastSupplementRequestHandler'),
+
+  // Steps
+  CreatePodcastFormStepRequestHandler: Symbol.for('CreatePodcastFormStepRequestHandler'),
+  UpdatePodcastFormStepRequestHandler: Symbol.for('UpdatePodcastFormStepRequestHandler'),
+  DeletePodcastFormStepRequestHandler: Symbol.for('DeletePodcastFormStepRequestHandler'),
+  GetPodcastFormStructureRequestHandler: Symbol.for('GetPodcastFormStructureRequestHandler'),
+
+  // Form Questions (New)
+  CreatePodcastFormQuestionRequestHandler: Symbol.for('CreatePodcastFormQuestionRequestHandler'),
+  UpdatePodcastFormQuestionRequestHandler: Symbol.for('UpdatePodcastFormQuestionRequestHandler'),
+  DeletePodcastFormQuestionRequestHandler: Symbol.for('DeletePodcastFormQuestionRequestHandler'),
+
+  // Themes
+  CreatePodcastThemeRequestHandler: Symbol.for('CreatePodcastThemeRequestHandler'),
+  UpdatePodcastThemeRequestHandler: Symbol.for('UpdatePodcastThemeRequestHandler'),
+  DeletePodcastThemeRequestHandler: Symbol.for('DeletePodcastThemeRequestHandler'),
+  GetPodcastThemesRequestHandler: Symbol.for('GetPodcastThemesRequestHandler'),
+
+  // Availability
+  GetAvailabilityConfigRequestHandler: Symbol.for('GetAvailabilityConfigRequestHandler'),
+  UpdateAvailabilityConfigRequestHandler: Symbol.for('UpdateAvailabilityConfigRequestHandler'),
 };

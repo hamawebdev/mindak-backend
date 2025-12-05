@@ -44,7 +44,7 @@ export class RefreshTokenUseCase implements IUseCase<RefreshTokenUseCasePayload,
     try {
       // Find the refresh token in database
       const storedToken = await this.refreshTokenRepository.findByToken(payload.refreshToken);
-      
+
       if (!storedToken) {
         return new Failure<RefreshTokenUseCaseFailure>({
           reason: 'InvalidToken',

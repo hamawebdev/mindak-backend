@@ -3,7 +3,7 @@ import { eq, and, gte, lte, desc, asc, sql, or, like, count } from 'drizzle-orm'
 
 import { SERVICES_DI_TYPES } from '@/container/services/di-types';
 import { PodcastReservation } from '@/domain/models/podcast-reservation';
-import type { 
+import type {
   IPodcastReservationRepository,
   PodcastReservationFilters,
   PaginationParams,
@@ -80,22 +80,22 @@ export class PodcastReservationRepository implements IPodcastReservationReposito
     pagination: PaginationParams
   ): Promise<PaginatedResult<PodcastReservation>> {
     const db = this.database.getInstance();
-    
+
     // Build where conditions
     const conditions = [];
-    
+
     if (filters.status) {
       conditions.push(eq(podcastReservationTable.status, filters.status as any));
     }
-    
+
     if (filters.dateFrom) {
       conditions.push(gte(podcastReservationTable.submittedAt, filters.dateFrom));
     }
-    
+
     if (filters.dateTo) {
       conditions.push(lte(podcastReservationTable.submittedAt, filters.dateTo));
     }
-    
+
     // For search, we need to search in the JSON clientAnswers field
     if (filters.search) {
       conditions.push(
@@ -120,8 +120,8 @@ export class PodcastReservationRepository implements IPodcastReservationReposito
 
     // Determine sort column
     const sortColumn = sortBy === 'status' ? podcastReservationTable.status :
-                       sortBy === 'confirmationId' ? podcastReservationTable.confirmationId :
-                       podcastReservationTable.submittedAt;
+      sortBy === 'confirmationId' ? podcastReservationTable.confirmationId :
+        podcastReservationTable.submittedAt;
 
     const reservations = await db
       .select()
@@ -162,7 +162,7 @@ export class PodcastReservationRepository implements IPodcastReservationReposito
   async generateConfirmationId(): Promise<string> {
     const db = this.database.getInstance();
     const year = new Date().getFullYear();
-    
+
     // Get the count of reservations this year
     const yearStart = new Date(year, 0, 1);
     const [{ value: total }] = await db

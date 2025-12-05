@@ -71,7 +71,7 @@ export class SubmitPodcastReservationUseCase implements IUseCase<SubmitPodcastRe
 
       // 3. Build client answers with full question details
       const clientAnswers: ClientAnswer[] = [];
-      
+
       for (const answer of payload.answers) {
         const question = questions.find(q => q.id === answer.questionId);
         if (!question) {
@@ -89,7 +89,7 @@ export class SubmitPodcastReservationUseCase implements IUseCase<SubmitPodcastRe
         // Get answer details if answerId is provided
         let answerText: string | null = null;
         let answerMetadata: Record<string, unknown> | null = null;
-        
+
         if (answer.answerId) {
           const answerEntity = await this.formQuestionAnswerRepository.findById(answer.answerId);
           if (answerEntity) {
@@ -167,7 +167,7 @@ export class SubmitPodcastReservationUseCase implements IUseCase<SubmitPodcastRe
       if (!answer.answerId) {
         return { valid: false, error: 'Answer ID is required for selection questions' };
       }
-      
+
       // Verify answerId belongs to this question
       const answerEntity = await this.formQuestionAnswerRepository.findById(answer.answerId);
       if (!answerEntity || answerEntity.questionId !== question.id) {

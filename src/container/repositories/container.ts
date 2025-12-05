@@ -16,6 +16,8 @@ import type { IServiceCategoryRepository } from '@/domain/repositories/service-c
 import { ServiceCategoryRepository } from '@/infra/database/repositories/service-category-repository';
 import type { IPodcastReservationRepository } from '@/domain/repositories/podcast-reservation-repository.interface';
 import { PodcastReservationRepository } from '@/infra/database/repositories/podcast-reservation-repository';
+import type { PodcastReservationNewRepository as IPodcastReservationNewRepository } from '@/domain/repositories/podcast-reservation-new-repository.interface';
+import { PodcastReservationNewRepository } from '@/infra/database/repositories/podcast-reservation-new-repository';
 import type { IServiceReservationRepository } from '@/domain/repositories/service-reservation-repository.interface';
 import { ServiceReservationRepository } from '@/infra/database/repositories/service-reservation-repository';
 import type { IReservationStatusHistoryRepository } from '@/domain/repositories/reservation-status-history-repository.interface';
@@ -24,6 +26,18 @@ import type { IReservationNoteRepository } from '@/domain/repositories/reservati
 import { ReservationNoteRepository } from '@/infra/database/repositories/reservation-note-repository';
 import type { IAnalyticsRepository } from '@/domain/repositories/analytics-repository.interface';
 import { AnalyticsRepository } from '@/infra/database/repositories/analytics-repository';
+import type { PodcastDecorRepository as IPodcastDecorRepository } from '@/domain/repositories/podcast-decor-repository.interface';
+import { PodcastDecorRepository } from '@/infra/database/repositories/podcast-decor-repository';
+import type { PodcastPackOfferRepository as IPodcastPackOfferRepository } from '@/domain/repositories/podcast-pack-offer-repository.interface';
+import { PodcastPackOfferRepository } from '@/infra/database/repositories/podcast-pack-offer-repository';
+import type { PodcastSupplementServiceRepository as IPodcastSupplementServiceRepository } from '@/domain/repositories/podcast-supplement-service-repository.interface';
+import { PodcastSupplementServiceRepository } from '@/infra/database/repositories/podcast-supplement-service-repository';
+import type { PodcastFormQuestionRepository as IPodcastFormQuestionRepository } from '@/domain/repositories/podcast-form-question-repository.interface';
+import { PodcastFormQuestionRepository } from '@/infra/database/repositories/podcast-form-question-repository';
+import type { PodcastFormStepRepository as IPodcastFormStepRepository } from '@/domain/repositories/podcast-form-step-repository.interface';
+import { PodcastFormStepRepository } from '@/infra/database/repositories/podcast-form-step-repository';
+import type { IPodcastThemeRepository } from '@/domain/repositories/podcast-theme-repository.interface';
+import { PodcastThemeRepository } from '@/infra/database/repositories/podcast-theme-repository';
 
 export const registerRepositories = (containerBuilder: ContainerBuilder) => {
   const builder = new RepositoriesContainerBuilder(containerBuilder)
@@ -36,7 +50,7 @@ export const registerRepositories = (containerBuilder: ContainerBuilder) => {
  * This class is used to register all the repositories in the container
  */
 class RepositoriesContainerBuilder {
-  constructor(private readonly containerBuilder: ContainerBuilder) {}
+  constructor(private readonly containerBuilder: ContainerBuilder) { }
 
   registerRepositories() {
     this
@@ -48,10 +62,17 @@ class RepositoriesContainerBuilder {
       .registerServiceRepository()
       .registerServiceCategoryRepository()
       .registerPodcastReservationRepository()
+      .registerPodcastReservationNewRepository()
       .registerServiceReservationRepository()
       .registerReservationStatusHistoryRepository()
       .registerReservationNoteRepository()
-      .registerAnalyticsRepository();
+      .registerAnalyticsRepository()
+      .registerPodcastDecorRepository()
+      .registerPodcastPackOfferRepository()
+      .registerPodcastSupplementServiceRepository()
+      .registerPodcastFormQuestionRepository()
+      .registerPodcastFormStepRepository()
+      .registerPodcastThemeRepository();
 
     return this.containerBuilder;
   }
@@ -120,6 +141,14 @@ class RepositoriesContainerBuilder {
     return this;
   }
 
+  private registerPodcastReservationNewRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastReservationNewRepository>(REPOSITORIES_DI_TYPES.PodcastReservationNewRepository).to(PodcastReservationNewRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
   private registerServiceReservationRepository() {
     this.containerBuilder.registerActions.push((container) => {
       container.bind<IServiceReservationRepository>(REPOSITORIES_DI_TYPES.ServiceReservationRepository).to(ServiceReservationRepository).inSingletonScope();
@@ -147,6 +176,54 @@ class RepositoriesContainerBuilder {
   private registerAnalyticsRepository() {
     this.containerBuilder.registerActions.push((container) => {
       container.bind<IAnalyticsRepository>(REPOSITORIES_DI_TYPES.AnalyticsRepository).to(AnalyticsRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastDecorRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastDecorRepository>(REPOSITORIES_DI_TYPES.PodcastDecorRepository).to(PodcastDecorRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastPackOfferRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastPackOfferRepository>(REPOSITORIES_DI_TYPES.PodcastPackOfferRepository).to(PodcastPackOfferRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastSupplementServiceRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastSupplementServiceRepository>(REPOSITORIES_DI_TYPES.PodcastSupplementServiceRepository).to(PodcastSupplementServiceRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastFormQuestionRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastFormQuestionRepository>(REPOSITORIES_DI_TYPES.PodcastFormQuestionRepository).to(PodcastFormQuestionRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastFormStepRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastFormStepRepository>(REPOSITORIES_DI_TYPES.PodcastFormStepRepository).to(PodcastFormStepRepository).inSingletonScope();
+    });
+
+    return this;
+  }
+
+  private registerPodcastThemeRepository() {
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IPodcastThemeRepository>(REPOSITORIES_DI_TYPES.PodcastThemeRepository).to(PodcastThemeRepository).inSingletonScope();
     });
 
     return this;

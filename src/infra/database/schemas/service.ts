@@ -1,5 +1,6 @@
 import type { InferSelectModel } from 'drizzle-orm';
 import { uuid, pgTable, varchar, text, decimal, integer, boolean, timestamp } from 'drizzle-orm/pg-core';
+
 import { serviceCategoryTable } from './service-category';
 
 export const serviceTable = pgTable('service', {

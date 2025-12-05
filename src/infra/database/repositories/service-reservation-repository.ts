@@ -3,7 +3,7 @@ import { eq, and, gte, lte, desc, asc, sql, count } from 'drizzle-orm';
 
 import { SERVICES_DI_TYPES } from '@/container/services/di-types';
 import { ServiceReservation } from '@/domain/models/service-reservation';
-import type { 
+import type {
   IServiceReservationRepository,
   ServiceReservationFilters,
   PaginationParams,
@@ -81,29 +81,29 @@ export class ServiceReservationRepository implements IServiceReservationReposito
     pagination: PaginationParams
   ): Promise<PaginatedResult<ServiceReservation>> {
     const db = this.database.getInstance();
-    
+
     // Build where conditions
     const conditions = [];
-    
+
     if (filters.status) {
       conditions.push(eq(serviceReservationTable.status, filters.status as any));
     }
-    
+
     if (filters.dateFrom) {
       conditions.push(gte(serviceReservationTable.submittedAt, filters.dateFrom));
     }
-    
+
     if (filters.dateTo) {
       conditions.push(lte(serviceReservationTable.submittedAt, filters.dateTo));
     }
-    
+
     // Filter by service ID
     if (filters.serviceId) {
       conditions.push(
         sql`${serviceReservationTable.serviceIds}::jsonb @> ${JSON.stringify([filters.serviceId])}::jsonb`
       );
     }
-    
+
     // For search, we need to search in the JSON clientAnswers field
     if (filters.search) {
       conditions.push(
@@ -128,8 +128,8 @@ export class ServiceReservationRepository implements IServiceReservationReposito
 
     // Determine sort column
     const sortColumn = sortBy === 'status' ? serviceReservationTable.status :
-                       sortBy === 'confirmationId' ? serviceReservationTable.confirmationId :
-                       serviceReservationTable.submittedAt;
+      sortBy === 'confirmationId' ? serviceReservationTable.confirmationId :
+        serviceReservationTable.submittedAt;
 
     const reservations = await db
       .select()
@@ -170,7 +170,7 @@ export class ServiceReservationRepository implements IServiceReservationReposito
   async generateConfirmationId(): Promise<string> {
     const db = this.database.getInstance();
     const year = new Date().getFullYear();
-    
+
     // Get the count of reservations this year
     const yearStart = new Date(year, 0, 1);
     const [{ value: total }] = await db

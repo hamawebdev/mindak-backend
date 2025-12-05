@@ -1,5 +1,6 @@
 import type { InferSelectModel } from 'drizzle-orm';
 import { uuid, pgTable, varchar, text, timestamp } from 'drizzle-orm/pg-core';
+
 import { userTable } from './user';
 
 // Enum for reservation type
