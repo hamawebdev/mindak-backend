@@ -33,6 +33,60 @@ Error responses:
 
 Manage studio decor options available for selection.
 
+### Upload Decor Image
+**POST** `/decors/upload-image`
+
+Upload an image file for a decor. The image will be saved to the server's uploads folder and a URL will be returned that can be used as the `imageUrl` when creating or updating a decor.
+
+**Content-Type:** `multipart/form-data`
+
+**Request Body:**
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `image` | file | Yes | Image file (JPEG, PNG, GIF, WebP, SVG). Max 5MB. |
+
+**Example using FormData (JavaScript):**
+```javascript
+const formData = new FormData();
+formData.append('image', imageFile);
+
+const response = await fetch('/api/v1/admin/podcast/configuration/decors/upload-image', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer <token>'
+  },
+  body: formData
+});
+```
+
+**Success Response (200):**
+```json
+{
+  "success": true,
+  "data": {
+    "imageUrl": "/uploads/decors/1733567890123-abc123def456.jpg"
+  }
+}
+```
+
+**Error Responses:**
+- `400 Bad Request` - No file uploaded or invalid file type
+- `401 Unauthorized` - Missing or invalid authentication
+
+**Supported Image Types:**
+- `image/jpeg`, `image/jpg`
+- `image/png`
+- `image/gif`
+- `image/webp`
+- `image/svg+xml`
+
+**Usage Flow:**
+1. First, upload the image using this endpoint
+2. Receive the `imageUrl` in the response
+3. Use the returned `imageUrl` when creating or updating a decor
+
+---
+
 ### Create Decor
 **POST** `/decors`
 
@@ -41,7 +95,7 @@ Manage studio decor options available for selection.
 |-------|------|----------|-------------|
 | `name` | string | Yes | Name of the decor |
 | `description` | string | No | Description of the decor |
-| `imageUrl` | string | No | URL to the decor image |
+| `imageUrl` | string | No | URL to the decor image (use Upload Decor Image endpoint) |
 | `isActive` | boolean | No | Default: true |
 | `sortOrder` | number | No | Default: 0 |
 
@@ -49,7 +103,7 @@ Manage studio decor options available for selection.
 {
   "name": "Urban Loft",
   "description": "Modern industrial style",
-  "imageUrl": "https://example.com/images/loft.jpg",
+  "imageUrl": "/uploads/decors/1733567890123-abc123def456.jpg",
   "sortOrder": 1,
   "isActive": true
 }

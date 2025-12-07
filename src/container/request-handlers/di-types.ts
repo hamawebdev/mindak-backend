@@ -103,6 +103,7 @@ export const REQUEST_HANDLERS_DI_TYPES = {
   CreatePodcastDecorRequestHandler: Symbol.for('CreatePodcastDecorRequestHandler'),
   UpdatePodcastDecorRequestHandler: Symbol.for('UpdatePodcastDecorRequestHandler'),
   DeletePodcastDecorRequestHandler: Symbol.for('DeletePodcastDecorRequestHandler'),
+  UploadPodcastDecorImageRequestHandler: Symbol.for('UploadPodcastDecorImageRequestHandler'),
 
   // Packs
   CreatePodcastPackOfferRequestHandler: Symbol.for('CreatePodcastPackOfferRequestHandler'),

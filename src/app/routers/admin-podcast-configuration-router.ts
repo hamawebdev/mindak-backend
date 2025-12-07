@@ -7,6 +7,7 @@ import type { IRequestHandler } from '@/app/request-handlers/request-handler.int
 import type { ICurrentUserMiddleware } from '@/app/middlewares/current-user-middleware';
 import type { IAuthenticatedMiddleware } from '@/app/middlewares/authenticated-middleware';
 import type { IAdminMiddleware } from '@/app/middlewares/admin-middleware';
+import type { IUploadMiddleware } from '@/app/middlewares/upload-middleware';
 
 @injectable()
 class AdminPodcastConfigurationRouter extends BaseRouter {
@@ -16,6 +17,7 @@ class AdminPodcastConfigurationRouter extends BaseRouter {
     @inject(REQUEST_HANDLERS_DI_TYPES.CreatePodcastDecorRequestHandler) private readonly createDecorRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.UpdatePodcastDecorRequestHandler) private readonly updateDecorRequestHandler: IRequestHandler,
     @inject(REQUEST_HANDLERS_DI_TYPES.DeletePodcastDecorRequestHandler) private readonly deleteDecorRequestHandler: IRequestHandler,
+    @inject(REQUEST_HANDLERS_DI_TYPES.UploadPodcastDecorImageRequestHandler) private readonly uploadDecorImageRequestHandler: IRequestHandler,
 
     // Packs
     @inject(REQUEST_HANDLERS_DI_TYPES.GetPacksRequestHandler) private readonly getPacksRequestHandler: IRequestHandler,
@@ -54,6 +56,7 @@ class AdminPodcastConfigurationRouter extends BaseRouter {
     @inject(MIDDLEWARES_DI_TYPES.CurrentUserMiddleware) private readonly currentUserMiddleware: ICurrentUserMiddleware,
     @inject(MIDDLEWARES_DI_TYPES.AuthenticatedMiddleware) private readonly authenticatedMiddleware: IAuthenticatedMiddleware,
     @inject(MIDDLEWARES_DI_TYPES.AdminMiddleware) private readonly adminMiddleware: IAdminMiddleware,
+    @inject(MIDDLEWARES_DI_TYPES.UploadMiddleware) private readonly uploadMiddleware: IUploadMiddleware,
   ) {
     super();
   }
@@ -73,6 +76,10 @@ class AdminPodcastConfigurationRouter extends BaseRouter {
     this.router.route('/podcast/configuration/decors/:id')
       .put(...adminProtected(), this.updateDecorRequestHandler.handler.bind(this.updateDecorRequestHandler))
       .delete(...adminProtected(), this.deleteDecorRequestHandler.handler.bind(this.deleteDecorRequestHandler));
+
+    // Decor Image Upload
+    this.router.route('/podcast/configuration/decors/upload-image')
+      .post(...adminProtected(), this.uploadMiddleware.single('image'), this.uploadDecorImageRequestHandler.handler.bind(this.uploadDecorImageRequestHandler));
 
     // Packs
     this.router.route('/podcast/configuration/packs')

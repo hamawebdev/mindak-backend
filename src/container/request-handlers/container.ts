@@ -87,6 +87,7 @@ import { GetRealtimeDashboardRequestHandler } from '@/app/request-handlers/analy
 import { CreatePodcastDecorRequestHandler } from '@/app/request-handlers/podcast-configuration/decors/create-podcast-decor-request-handler';
 import { UpdatePodcastDecorRequestHandler } from '@/app/request-handlers/podcast-configuration/decors/update-podcast-decor-request-handler';
 import { DeletePodcastDecorRequestHandler } from '@/app/request-handlers/podcast-configuration/decors/delete-podcast-decor-request-handler';
+import { UploadPodcastDecorImageRequestHandler } from '@/app/request-handlers/podcast-configuration/decors/upload-podcast-decor-image-request-handler';
 import { CreatePodcastPackOfferRequestHandler } from '@/app/request-handlers/podcast-configuration/packs/create-podcast-pack-offer-request-handler';
 import { UpdatePodcastPackOfferRequestHandler } from '@/app/request-handlers/podcast-configuration/packs/update-podcast-pack-offer-request-handler';
 import { DeletePodcastPackOfferRequestHandler } from '@/app/request-handlers/podcast-configuration/packs/delete-podcast-pack-offer-request-handler';
@@ -414,6 +415,9 @@ class RequestHandlersContainerBuilder {
     });
     this.containerBuilder.registerActions.push((container) => {
       container.bind<IRequestHandler>(REQUEST_HANDLERS_DI_TYPES.DeletePodcastDecorRequestHandler).to(DeletePodcastDecorRequestHandler).inSingletonScope();
+    });
+    this.containerBuilder.registerActions.push((container) => {
+      container.bind<IRequestHandler>(REQUEST_HANDLERS_DI_TYPES.UploadPodcastDecorImageRequestHandler).to(UploadPodcastDecorImageRequestHandler).inSingletonScope();
     });
 
     this.containerBuilder.registerActions.push((container) => {

@@ -1,11 +1,12 @@
 import { inject, injectable } from 'inversify';
-import { eq, asc } from 'drizzle-orm';
+import { eq, asc, count } from 'drizzle-orm';
 
 import { SERVICES_DI_TYPES } from '@/container/services/di-types';
 import type { PodcastDecor, CreatePodcastDecorInput, UpdatePodcastDecorInput } from '@/domain/models/podcast-decor';
 import type { PodcastDecorRepository as IPodcastDecorRepository } from '@/domain/repositories/podcast-decor-repository.interface';
 import type { IDatabase } from '@/infra/database/database';
 import { podcastDecorTable, type PodcastDecorEntity } from '@/infra/database/schemas/podcast-decor';
+import { podcastReservationNewTable } from '@/infra/database/schemas/podcast-reservation-new';
 
 @injectable()
 export class PodcastDecorRepository implements IPodcastDecorRepository {
@@ -51,8 +52,22 @@ export class PodcastDecorRepository implements IPodcastDecorRepository {
 
   async delete(id: string): Promise<boolean> {
     const db = this.database.getInstance();
+    
+    // First, set decor_id to NULL for any reservations using this decor
+    await db.update(podcastReservationNewTable)
+      .set({ decorId: null })
+      .where(eq(podcastReservationNewTable.decorId, id));
+    
     const result = await db.delete(podcastDecorTable).where(eq(podcastDecorTable.id, id));
     return result.rowCount !== null && result.rowCount > 0;
+  }
+
+  async isInUse(id: string): Promise<boolean> {
+    const db = this.database.getInstance();
+    const [result] = await db.select({ count: count() })
+      .from(podcastReservationNewTable)
+      .where(eq(podcastReservationNewTable.decorId, id));
+    return result.count > 0;
   }
 
   private toModel(entity: PodcastDecorEntity): PodcastDecor {

@@ -7,6 +7,7 @@ export interface PodcastDecorRepository {
   create(input: CreatePodcastDecorInput): Promise<PodcastDecor>;
   update(id: string, input: UpdatePodcastDecorInput): Promise<PodcastDecor | null>;
   delete(id: string): Promise<boolean>;
+  isInUse(id: string): Promise<boolean>;
 }
 
 export const PodcastDecorRepository = Symbol.for('PodcastDecorRepository');
