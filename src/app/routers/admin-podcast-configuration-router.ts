@@ -77,9 +77,9 @@ class AdminPodcastConfigurationRouter extends BaseRouter {
       .put(...adminProtected(), this.updateDecorRequestHandler.handler.bind(this.updateDecorRequestHandler))
       .delete(...adminProtected(), this.deleteDecorRequestHandler.handler.bind(this.deleteDecorRequestHandler));
 
-    // Decor Image Upload
+    // Decor Image Upload (50MB limit, all image formats)
     this.router.route('/podcast/configuration/decors/upload-image')
-      .post(...adminProtected(), this.uploadMiddleware.single('image'), this.uploadDecorImageRequestHandler.handler.bind(this.uploadDecorImageRequestHandler));
+      .post(...adminProtected(), this.uploadMiddleware.singleWithOptions('image', { maxSizeMb: 50, allowAllImageFormats: true }), this.uploadDecorImageRequestHandler.handler.bind(this.uploadDecorImageRequestHandler));
 
     // Packs
     this.router.route('/podcast/configuration/packs')
